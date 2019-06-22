@@ -1,6 +1,7 @@
 @prefix : <http://linked.data.gov.au/def/geofabric#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix hyf: <https://www.opengis.net/def/appschema/hy_features/hyf/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix sdo: <https://schema.org/> .
@@ -52,7 +53,7 @@ sdo:name rdf:type owl:AnnotationProperty .
 
 ###  http://linked.data.gov.au/def/geofabric#ContractedCatchment
 :ContractedCatchment rdf:type owl:Class ;
-                     rdfs:subClassOf geo:Feature ,
+                     rdfs:subClassOf geo:Feature , hyf:HY_Catchment ,
                                      [ rdf:type owl:Restriction ;
                                        owl:onProperty geo:sfWithin ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -70,7 +71,7 @@ sdo:name rdf:type owl:AnnotationProperty .
 
 ###  http://linked.data.gov.au/def/geofabric#DrainageDivision
 :DrainageDivision rdf:type owl:Class ;
-                  rdfs:subClassOf geo:Feature ;
+                  rdfs:subClassOf geo:Feature , hyf:HY_CatchmentAggregate ;
                   <http://purl.org/dc/elements/1.1/source> "Page 44 in the Australian Hydrological Geospatial Fabric (Geofabric) v3.0 Product Guide"@en ;
                   rdfs:comment """The Geofabric's Hydrology Reporting Region product's AWRA Drainage Division object.
 
@@ -80,7 +81,7 @@ Drainage Division is defined for the purpose of providing a stable set of report
 
 ###  http://linked.data.gov.au/def/geofabric#RiverRegion
 :RiverRegion rdf:type owl:Class ;
-             rdfs:subClassOf geo:Feature ;
+             rdfs:subClassOf geo:Feature , hyf:HY_CatchmentAggregate ;
              rdfs:comment """The Geofabric's Hydrology Reporting Region product's River Region object.
 
 Reporting Regions are derived from aggregations of Contracted Catchments for regional scale reporting purposes."""@en ;
@@ -90,6 +91,13 @@ Reporting Regions are derived from aggregations of Contracted Catchments for reg
 ###  http://www.opengis.net/ont/geosparql#Feature
 geo:Feature rdf:type owl:Class .
 
+hyf:HY_CatchmentAggregate rdf:type owl:Class ;
+    rdfs:label "Catchment Aggregate" ;
+    rdfs:comment "The HY Features Ontology's generic class for an aggregation of catchments"@en .
+
+hyf:HY_Catchment rdf:type owl:Class ;
+                 rdfs:label "Catchment" ;
+                 rdfs:comment "The HY Features Ontology's generic class for a catchment"@en .
 
 [ sdo:identifier <http://catalogue.linked.data.gov.au/org/csiro> ;
   sdo:name "CSIRO"
