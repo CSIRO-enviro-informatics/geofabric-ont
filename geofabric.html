@@ -77,7 +77,8 @@
             <tr>
                 <th>Description</th>
                 <td>
-                    The Geofabric's Hydrology Reporting Catchments product's AHGF Contracted Catchment object.
+                    <p>The Geofabric's Hydrology Reporting Catchments product's AHGF Contracted Catchment object.</p>
+                    <p>A Contracted Catchments are always within River Revions.</p>
                 </td>
             </tr>
             <tr>
@@ -90,8 +91,7 @@
             <tr>
                 <th>Restrictions</th>
                 <td>
-                    <a href="http://www.opengis.net/ont/geosparql#sfWithin">geo:sfWithin</a> <span class="cardinality">exactly</span> 1 <a href="#riverregion">RiverRegion</a> <sup class="sup-c" title="class">c</sup><br/>
-                    <a href="http://www.opengis.net/ont/geosparql#sfWithin">geo:sfWithin</a> <span class="cardinality">exactly</span> 1 <a href="#drainagedivision">DrainageDivision</a> <sup class="sup-c" title="class">c</sup><br/>
+                    <a href="http://www.opengis.net/ont/geosparql#sfWithin">geo:sfWithin</a> <span class="cardinality">only</span> <a href="#riverregion">RiverRegion</a> <sup class="sup-c" title="class">c</sup><br/>
                 </td>
             </tr>
         </table>
@@ -106,9 +106,8 @@
             <tr>
                 <th>Description</th>
                 <td>
-                    The Geofabric's Hydrology Reporting Region product's AWRA Drainage Division object.
-
-Drainage Division is defined for the purpose of providing a stable set of reporting regions specifically for the purpose of the Bureau’s Australian Water Resources Assessment (AWRA) and are referred to as the 2010 and 2012 Assessment Reporting Regions
+                    <p>The Geofabric's Hydrology Reporting Region product's AWRA Drainage Division object.</p>
+                    <p>Drainage Division is defined for the purpose of providing a stable set of reporting regions specifically for the purpose of the Bureau’s Australian Water Resources Assessment (AWRA) and are referred to as the 2010 and 2012 Assessment Reporting Regions.</p>
                 </td>
             </tr>
             <tr>
@@ -130,9 +129,9 @@ Drainage Division is defined for the purpose of providing a stable set of report
             <tr>
                 <th>Description</th>
                 <td>
-                    The Geofabric's Hydrology Reporting Region product's River Region object.
-
-Reporting Regions are derived from aggregations of Contracted Catchments for regional scale reporting purposes.
+                    <p>The Geofabric's Hydrology Reporting Region product's River Region object.</p>
+                    <p>Reporting Regions are derived from aggregations of Contracted Catchments for regional scale reporting purposes.</p>
+                    <p>A River Regions is always within one and only one Drainage Division.</p>
                 </td>
             </tr>
             <tr>
@@ -141,6 +140,12 @@ Reporting Regions are derived from aggregations of Contracted Catchments for reg
                     <a href="http://www.opengis.net/ont/geosparql#Feature">geo:Feature</a> <sup class="sup-c" title="class">c</sup><br/>
                     <a href="https://www.opengis.net/def/appschema/hy_features/hyf/HY_CatchmentAggregate">hyf:HY_CatchmentAggregate</a> <sup class="sup-c" title="class">c</sup><br/>
                 </td>
+            </tr>
+            <tr>
+              <th>Restrictions</th>
+              <td>
+                <a href="http://www.opengis.net/ont/geosparql#sfWithin">geo:sfWithin</a> <span class="cardinality">only</span> <a href="#drainagedivision">DrainageDivision</a> <sup class="sup-c" title="class">c</sup><br/>
+              </td>
             </tr>
         </table>
     </div>
