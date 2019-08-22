@@ -10,6 +10,7 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sdo: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -42,7 +43,14 @@ This ontology accords with the [Loc-I Project](http://locationindex.org)'s requi
 .
 :ContractedCatchment
   a owl:Class ;
-  dc:description """All contracted catchment features of type ContractedArea are aggregations of the
+  dc:description """The AHGFContractedCatchment feature class is designed to represent geographic surface
+boundaries that have a hydrological relationship to surface water features. These catchment
+boundaries in their current form may not completely satisfy legislative or business
+requirements, but are intended to provide the building blocks for reporting regions such as
+those given in Geofabric Hydrology Reporting Regions. The AHGFNode and AHGFLink feature
+classes provide a simplified, dendritic node link network for input into hydrological models. 
+
+All contracted catchment features of type ContractedArea are aggregations of the
 AHGFCatchment units that participate in a relationship of common geographic extent based
 upon the location of a contracted node from both Geofabric Surface Cartography and
 Geofabric Surface Network or a data sink as defined within the DEM-1S. Levels of confidence
@@ -55,22 +63,8 @@ features are the drainage areas of a combination of Levels 1 and 2 contracted no
 drainage areas also incorporate catchment areas where there is no discernable flow (at
 1:250,000 scale) in the form of stream flow segment features. The allocation of no flow areas
 to contracted catchments is performed based on the most likely destination of water falling in
-these areas in flood type conditions. 
-
-Contracted catchment hierarchy
-
-In previous versions of the Geofabric, the set of contracted catchment features provided a
-collection of drainage areas for a set of persistent contracted nodes. In V2.1 these areas have
-been further processed to aggregate these features into a contracted catchment hierarchy.
-This hierarchy of contracted catchments includes only those catchments for key contracted
-nodes taken from a full set of contractible river confluences, sinks, monitoring points and the
-inflow and outflow points of water storages. These key contracted nodes form a stable,
-logical, dendritic hierarchy of catchments that can be reliably reproduced when moving to
-higher resolution or larger scaled data. The contracted catchment hierarchy provides a
-reliable and stable set of catchments that, among other things, can be mapped to a number
-of types of water reporting areas (depending on the use case) as exemplified by the stable
-reporting regions given in Hydrology Reporting Regions.""" ;
-  dc:source "Section 5.4.3 Page 40 in the Australian Hydrological Geospatial Fabric (Geofabric) v3.0 Product Guide"@en ;
+these areas in flood type conditions. """ ;
+  dc:source "Section 5.4.3 Page 38, 40 in the Australian Hydrological Geospatial Fabric (Geofabric) v3.0 Product Guide"@en ;
   rdfs:comment """The Geofabric's Hydrology Reporting Catchments product's AHGF Contracted Catchment object.
 
 Contracted Catchments are always within River Revions."""@en ;
@@ -83,6 +77,19 @@ Contracted Catchments are always within River Revions."""@en ;
       owl:onProperty geo:sfWithin ;
       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
     ] ;
+  skos:historyNote """Contracted catchment hierarchy
+
+In previous versions of the Geofabric, the set of contracted catchment features provided a
+collection of drainage areas for a set of persistent contracted nodes. In V2.1 these areas have
+been further processed to aggregate these features into a contracted catchment hierarchy.
+This hierarchy of contracted catchments includes only those catchments for key contracted
+nodes taken from a full set of contractible river confluences, sinks, monitoring points and the
+inflow and outflow points of water storages. These key contracted nodes form a stable,
+logical, dendritic hierarchy of catchments that can be reliably reproduced when moving to
+higher resolution or larger scaled data. The contracted catchment hierarchy provides a
+reliable and stable set of catchments that, among other things, can be mapped to a number
+of types of water reporting areas (depending on the use case) as exemplified by the stable
+reporting regions given in Hydrology Reporting Regions.""" ;
 .
 :DrainageDivision
   a owl:Class ;
@@ -95,38 +102,26 @@ and are referred to as the 2010 and 2012 Assessment Reporting Regions.""" ;
 Drainage Division is defined for the purpose of providing a stable set of reporting regions specifically for the purpose of the Bureau’s Australian Water Resources Assessment (AWRA) and are referred to as the 2010 and 2012 Assessment Reporting Regions"""@en ;
   rdfs:label "Drainage Division" ;
   rdfs:subClassOf :ReportingRegion ;
-  rdfs:subClassOf geo:Feature ;
   rdfs:subClassOf hyf:HY_CatchmentAggregate ;
 .
 :ReportingRegion
   a owl:Class ;
   dc:description """Geofabric Hydrology Reporting Regions are derived from aggregations of contracted
-catchments from Geofabric Hydrology Reporting Catchments. This product contains two
+catchments from Geofabric Hydrology Reporting Catchments. """ ;
+  dc:source "Section 5.5 Page 44 in the Australian Hydrological Geospatial Fabric (Geofabric) v3.0 Product Guide"@en ;
+  rdfs:label "Reporting Region" ;
+  rdfs:subClassOf geo:Feature ;
+  rdfs:subClassOf hyf:HY_CatchmentAggregate ;
+  skos:historyNote """This product contains two
 candidate reporting regions, namely AWRA Drainage Division for national scale reporting
 purposes and River Region for regional scale reporting purposes. More reporting regions may
-be added in future releases based on user requirements.
-
-The AWRA Drainage Division is defined for the purpose of providing a stable set of reporting
-regions specifically for the purpose of the Bureau’s Australian Water Resources Assessment
-and are referred to as the 2010 and 2012 Assessment Reporting Regions.
-
-The River Regions were based on a specification developed by Bureau hydrologists involved in
-water resources assessment in consultation with the Geofabric team and scientists from
-CSIRO and ANU. These boundaries were developed for use in regional scale reporting and
-hydrological modelling. The River Region boundaries were not used in the Australian Water
-Resources Assessment 2010 and 2012 but may be considered in the future as the resolution
-of reporting increases.
-
-Though the Geofabric Hydrology Reporting Regions have been developed for the purposes of
+be added in future releases based on user requirements.""" ;
+  skos:scopeNote """Though the Geofabric Hydrology Reporting Regions have been developed for the purposes of
 the Australian Water Resources Assessment, it is envisaged that these units can be used more
 generally as a standard for hydrological reporting at the national and regional scale, and thus
 replace the Australia River Basins 1997 (http://www.ga.gov.au/metadatagateway/metadata/record/gcat_42343).
 Table 31 shows the Geofabric Hydrology Reporting Regions feature class terminology and
-feature subtypes. """ ;
-  dc:source "Section 5.5 Page 44 in the Australian Hydrological Geospatial Fabric (Geofabric) v3.0 Product Guide"@en ;
-  rdfs:label "Geofabric Hydrology reporting region" ;
-  rdfs:subClassOf geo:Feature ;
-  rdfs:subClassOf hyf:HY_CatchmentAggregate ;
+feature subtypes.""" ;
 .
 :RiverRegion
   a owl:Class ;
@@ -143,7 +138,6 @@ Reporting Regions are derived from aggregations of Contracted Catchments for reg
 A River Regions is always within one and only one Drainage Division."""@en ;
   rdfs:label "River Region" ;
   rdfs:subClassOf :ReportingRegion ;
-  rdfs:subClassOf geo:Feature ;
   rdfs:subClassOf hyf:HY_CatchmentAggregate ;
   rdfs:subClassOf [
       a owl:Restriction ;
