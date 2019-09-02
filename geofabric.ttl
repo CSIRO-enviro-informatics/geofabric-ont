@@ -146,6 +146,12 @@ A River Regions is always within one and only one Drainage Division."""@en ;
       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
     ] ;
 .
+:hasConCatID
+  a owl:DatatypeProperty ;
+  rdfs:comment "false if the contracted catchment does not drain into another catchment (i.e. is a sink)" ;
+  rdfs:domain :ContractedCatchment ;
+  rdfs:range xsd:boolean ;
+.
 dc:source
   a owl:AnnotationProperty ;
 .
