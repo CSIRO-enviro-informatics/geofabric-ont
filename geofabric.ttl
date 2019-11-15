@@ -1,10 +1,11 @@
 # baseURI: http://linked.data.gov.au/def/geofabric
 # imports: http://www.opengis.net/ont/geosparql#
+# prefix: geofab
 
-@prefix : <http://linked.data.gov.au/def/geofabric#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix geofab: <http://linked.data.gov.au/def/geofabric#> .
 @prefix hyf: <https://www.opengis.net/def/appschema/hy_features/hyf/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -41,7 +42,7 @@ This ontology accords with the [Loc-I Project](http://locationindex.org)'s requi
   owl:versionInfo "Beta version"@en ;
   owl:versionInfo "Version 1.0 only characterises 3 types of Feature - Contracted Catchment, River Region & Drianage Division - and requires that each CC be within a RR and that an RR be within a DD."@en ;
 .
-:ContractedCatchment
+geofab:ContractedCatchment
   a owl:Class ;
   dc:description """The AHGFContractedCatchment feature class is designed to represent geographic surface
 boundaries that have a hydrological relationship to surface water features. These catchment
@@ -73,7 +74,13 @@ Contracted Catchments are always within River Revions."""@en ;
   rdfs:subClassOf hyf:HY_Catchment ;
   rdfs:subClassOf [
       a owl:Restriction ;
-      owl:onClass :RiverRegion ;
+      owl:onClass geofab:DrainageDivision ;
+      owl:onProperty geo:sfWithin ;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    ] ;
+  rdfs:subClassOf [
+      a owl:Restriction ;
+      owl:onClass geofab:RiverRegion ;
       owl:onProperty geo:sfWithin ;
       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
     ] ;
@@ -91,7 +98,7 @@ reliable and stable set of catchments that, among other things, can be mapped to
 of types of water reporting areas (depending on the use case) as exemplified by the stable
 reporting regions given in Hydrology Reporting Regions.""" ;
 .
-:DrainageDivision
+geofab:DrainageDivision
   a owl:Class ;
   dc:description """The AWRA Drainage Division is defined for the purpose of providing a stable set of reporting
 regions specifically for the purpose of the Bureau’s Australian Water Resources Assessment
@@ -101,10 +108,16 @@ and are referred to as the 2010 and 2012 Assessment Reporting Regions.""" ;
 
 Drainage Division is defined for the purpose of providing a stable set of reporting regions specifically for the purpose of the Bureau’s Australian Water Resources Assessment (AWRA) and are referred to as the 2010 and 2012 Assessment Reporting Regions"""@en ;
   rdfs:label "Drainage Division" ;
-  rdfs:subClassOf :ReportingRegion ;
+  rdfs:subClassOf geofab:ReportingRegion ;
   rdfs:subClassOf hyf:HY_CatchmentAggregate ;
+  rdfs:subClassOf [
+      a owl:Restriction ;
+      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass geofab:ContractedCatchment ;
+      owl:onProperty geo:sfContains ;
+    ] ;
 .
-:ReportingRegion
+geofab:ReportingRegion
   a owl:Class ;
   dc:description """Geofabric Hydrology Reporting Regions are derived from aggregations of contracted
 catchments from Geofabric Hydrology Reporting Catchments. """ ;
@@ -123,7 +136,7 @@ replace the Australia River Basins 1997 (http://www.ga.gov.au/metadatagateway/me
 Table 31 shows the Geofabric Hydrology Reporting Regions feature class terminology and
 feature subtypes.""" ;
 .
-:RiverRegion
+geofab:RiverRegion
   a owl:Class ;
   dc:description """The River Regions were based on a specification developed by Bureau hydrologists involved in
 water resources assessment in consultation with the Geofabric team and scientists from
@@ -137,19 +150,19 @@ Reporting Regions are derived from aggregations of Contracted Catchments for reg
 
 A River Regions is always within one and only one Drainage Division."""@en ;
   rdfs:label "River Region" ;
-  rdfs:subClassOf :ReportingRegion ;
+  rdfs:subClassOf geofab:ReportingRegion ;
   rdfs:subClassOf hyf:HY_CatchmentAggregate ;
   rdfs:subClassOf [
       a owl:Restriction ;
-      owl:onClass :DrainageDivision ;
-      owl:onProperty geo:sfWithin ;
-      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass geofab:ContractedCatchment ;
+      owl:onProperty geo:sfContains ;
     ] ;
 .
-:hasConCatID
+geofab:hasConCatID
   a owl:DatatypeProperty ;
   rdfs:comment "false if the contracted catchment does not drain into another catchment (i.e. is a sink)" ;
-  rdfs:domain :ContractedCatchment ;
+  rdfs:domain geofab:ContractedCatchment ;
   rdfs:range xsd:boolean ;
 .
 dc:source
