@@ -1,139 +1,45 @@
-@prefix : <http://linked.data.gov.au/def/geofabric#> .
+# baseURI: http://linked.data.gov.au/def/geofabric
+# imports: http://www.opengis.net/ont/geosparql#
+# prefix: geofab
+
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dct: <http://purl.org/dc/terms/> .
 @prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix geofab: <http://linked.data.gov.au/def/geofabric#> .
 @prefix hyf: <https://www.opengis.net/def/appschema/hy_features/hyf/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sdo: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix dcterms: <http://purl.org/dc/terms/> .
-@base <http://linked.data.gov.au/def/geofabric> .
 
 <http://linked.data.gov.au/def/geofabric> rdf:type owl:Ontology ;
                                            owl:versionIRI <http://linked.data.gov.au/def/geofabric/1.0> ;
                                            owl:imports geo: ;
                                            dcterms:contributor <https://orcid.org/0000-0002-3884-3420> ;
                                            dcterms:created "2019-06-07"^^xsd:date ;
-                                           dcterms:creator [ sdo:identifier <http://orcid.org/0000-0002-8742-7730> ;
-                                                             sdo:name "Nicholas J. Car"
-                                                           ] ;
+                                           dcterms:creator <http://orcid.org/0000-0002-8742-7730> ;
                                            dcterms:modified "2019-07-29"^^xsd:date ;
-                                           dcterms:publisher [ sdo:identifier <http://catalogue.linked.data.gov.au/org/csiro> ;
-                                                               sdo:name "CSIRO"
-                                                             ] ;
+                                           dcterms:publisher <https://linked.data.gov.au/org/csiro> ;
                                            dcterms:source <http://www.bom.gov.au/water/geofabric/documents/v3_0/ahgf_productguide_V3_0_release.pdf> ;
                                            rdfs:comment """A bare-bones ontology for the Australian Hydrological Geospatial Fabric.
 
 This small ontology characterises major parts of the [Australian Hydrological Geospatial Fabric](http://www.bom.gov.au/water/geofabric/) for their delivery as [Linked Data](https://www.w3.org/wiki/LinkedData) via the [Geofabric LDAPI](http://linked.data.gov.au/dataset/geofabric).
 
 This ontology accords with the [Loc-I Project](http://locationindex.org)'s requirements for the delivery of spatial [Semantic Web](https://www.w3.org/standards/semanticweb/) objects."""@en ;
-                                           rdfs:label "Geofabric Ontology"@en ;
-                                           rdfs:seeAlso <http://www.bom.gov.au/water/geofabric/documents/v2_1/AHGF_GDB_ProductRelationships_V2_1_release.pdf> ,
-                                                        "http://github.com/CSIRO-enviro-informatics/geofabric-ont/"@en ;
-                                           owl:versionInfo "Version 1.0 only characterises 3 types of Feature - Contracted Catchment, River Region & Drianage Division - and requires that each CC be within a RR and that an RR be within a DD."@en .
-
-#################################################################
-#    Annotation properties
-#################################################################
-
-###  http://purl.org/dc/elements/1.1/description
-dc:description rdf:type owl:AnnotationProperty .
-
-
-###  http://purl.org/dc/elements/1.1/source
-dc:source rdf:type owl:AnnotationProperty .
-
-
-###  http://purl.org/dc/terms/contributor
-dcterms:contributor rdf:type owl:AnnotationProperty .
-
-
-###  http://purl.org/dc/terms/created
-dcterms:created rdf:type owl:AnnotationProperty .
-
-
-###  http://purl.org/dc/terms/creator
-dcterms:creator rdf:type owl:AnnotationProperty .
-
-
-###  http://purl.org/dc/terms/modified
-dcterms:modified rdf:type owl:AnnotationProperty .
-
-
-###  http://purl.org/dc/terms/publisher
-dcterms:publisher rdf:type owl:AnnotationProperty .
-
-
-###  http://purl.org/dc/terms/source
-dcterms:source rdf:type owl:AnnotationProperty .
-
-
-###  http://www.w3.org/2004/02/skos/core#historyNote
-skos:historyNote rdf:type owl:AnnotationProperty .
-
-
-###  http://www.w3.org/2004/02/skos/core#scopeNote
-skos:scopeNote rdf:type owl:AnnotationProperty .
-
-
-###  https://schema.org/identifier
-sdo:identifier rdf:type owl:AnnotationProperty .
-
-
-###  https://schema.org/name
-sdo:name rdf:type owl:AnnotationProperty .
-
-
-#################################################################
-#    Datatypes
-#################################################################
-
-###  http://linked.data.gov.au/def/geofabric#geofabric-id
-:geofabric-id rdf:type rdfs:Datatype ;
-              owl:equivalentClass [ rdf:type rdfs:Datatype ;
-                                    owl:onDatatype xsd:string ;
-                                    owl:withRestrictions ( [ xsd:maxLength 100
-                                                           ]
-                                                         )
-                                  ] .
-
-
-#################################################################
-#    Object Properties
-#################################################################
-
-###  http://www.opengis.net/ont/geosparql#sfWithin
-geo:sfWithin rdf:type owl:ObjectProperty .
-
-
-#################################################################
-#    Data properties
-#################################################################
-
-###  http://linked.data.gov.au/def/geofabric#hasConCatID
-:hasConCatID rdf:type owl:DatatypeProperty ;
-             rdfs:domain :ContractedCatchment ;
-             rdfs:range xsd:boolean ;
-             rdfs:comment "false if the contracted catchment does not drain into another catchment (i.e. is a sink)" .
-
-
-#################################################################
-#    Classes
-#################################################################
-
-###  http://linked.data.gov.au/def/geofabric#ContractedCatchment
-:ContractedCatchment rdf:type owl:Class ;
-                     rdfs:subClassOf geo:Feature ,
-                                     hyf:HY_Catchment ,
-                                     [ rdf:type owl:Restriction ;
-                                       owl:onProperty geo:sfWithin ;
-                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                       owl:onClass :RiverRegion
-                                     ] ;
-                     dc:description """The AHGFContractedCatchment feature class is designed to represent geographic surface
+  rdfs:label "Geofabric Ontology"@en ;
+  rdfs:seeAlso <http://www.bom.gov.au/water/geofabric/documents/v2_1/AHGF_GDB_ProductRelationships_V2_1_release.pdf> ;
+  rdfs:seeAlso "http://github.com/CSIRO-enviro-informatics/geofabric-ont/"@en ;
+  owl:imports geo: ;
+  owl:versionIRI <http://linked.data.gov.au/def/geofabric/1.0> ;
+  owl:versionInfo "Beta version"@en ;
+  owl:versionInfo "Version 1.0 only characterises 3 types of Feature - Contracted Catchment, River Region & Drianage Division - and requires that each CC be within a RR and that an RR be within a DD."@en ;
+.
+geofab:ContractedCatchment
+  a owl:Class ;
+  dc:description """The AHGFContractedCatchment feature class is designed to represent geographic surface
 boundaries that have a hydrological relationship to surface water features. These catchment
 boundaries in their current form may not completely satisfy legislative or business
 requirements, but are intended to provide the building blocks for reporting regions such as
@@ -154,12 +60,26 @@ drainage areas also incorporate catchment areas where there is no discernable fl
 1:250,000 scale) in the form of stream flow segment features. The allocation of no flow areas
 to contracted catchments is performed based on the most likely destination of water falling in
 these areas in flood type conditions. """ ;
-                     dc:source "Section 5.4.3 Page 38, 40 in the Australian Hydrological Geospatial Fabric (Geofabric) v3.0 Product Guide"@en ;
-                     rdfs:comment """The Geofabric's Hydrology Reporting Catchments product's AHGF Contracted Catchment object.
+  dc:source "Section 5.4.3 Page 38, 40 in the Australian Hydrological Geospatial Fabric (Geofabric) v3.0 Product Guide"@en ;
+  rdfs:comment """The Geofabric's Hydrology Reporting Catchments product's AHGF Contracted Catchment object.
 
 Contracted Catchments are always within River Revions."""@en ;
-                     rdfs:label "Contracted Catchment" ;
-                     skos:historyNote """Contracted catchment hierarchy
+  rdfs:label "Contracted Catchment" ;
+  rdfs:subClassOf geo:Feature ;
+  rdfs:subClassOf hyf:HY_Catchment ;
+  rdfs:subClassOf [
+      a owl:Restriction ;
+      owl:onClass geofab:DrainageDivision ;
+      owl:onProperty geo:sfWithin ;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    ] ;
+  rdfs:subClassOf [
+      a owl:Restriction ;
+      owl:onClass geofab:RiverRegion ;
+      owl:onProperty geo:sfWithin ;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    ] ;
+  skos:historyNote """Contracted catchment hierarchy
 
 In previous versions of the Geofabric, the set of contracted catchment features provided a
 collection of drainage areas for a set of persistent contracted nodes. In V2.1 these areas have
@@ -171,32 +91,36 @@ logical, dendritic hierarchy of catchments that can be reliably reproduced when 
 higher resolution or larger scaled data. The contracted catchment hierarchy provides a
 reliable and stable set of catchments that, among other things, can be mapped to a number
 of types of water reporting areas (depending on the use case) as exemplified by the stable
-reporting regions given in Hydrology Reporting Regions.""" .
-
-
-###  http://linked.data.gov.au/def/geofabric#DrainageDivision
-:DrainageDivision rdf:type owl:Class ;
-                  rdfs:subClassOf :ReportingRegion ,
-                                  hyf:HY_CatchmentAggregate ;
-                  dc:description """The AWRA Drainage Division is defined for the purpose of providing a stable set of reporting
+reporting regions given in Hydrology Reporting Regions.""" ;
+.
+geofab:DrainageDivision
+  a owl:Class ;
+  dc:description """The AWRA Drainage Division is defined for the purpose of providing a stable set of reporting
 regions specifically for the purpose of the Bureau’s Australian Water Resources Assessment
 and are referred to as the 2010 and 2012 Assessment Reporting Regions.""" ;
-                  dc:source "Page 44 in the Australian Hydrological Geospatial Fabric (Geofabric) v3.0 Product Guide"@en ;
-                  rdfs:comment """The Geofabric's Hydrology Reporting Region product's AWRA Drainage Division object.
+  dc:source "Page 44 in the Australian Hydrological Geospatial Fabric (Geofabric) v3.0 Product Guide"@en ;
+  rdfs:comment """The Geofabric's Hydrology Reporting Region product's AWRA Drainage Division object.
 
 Drainage Division is defined for the purpose of providing a stable set of reporting regions specifically for the purpose of the Bureau’s Australian Water Resources Assessment (AWRA) and are referred to as the 2010 and 2012 Assessment Reporting Regions"""@en ;
-                  rdfs:label "Drainage Division" .
-
-
-###  http://linked.data.gov.au/def/geofabric#ReportingRegion
-:ReportingRegion rdf:type owl:Class ;
-                 rdfs:subClassOf geo:Feature ,
-                                 hyf:HY_CatchmentAggregate ;
-                 dc:description """Geofabric Hydrology Reporting Regions are derived from aggregations of contracted
+  rdfs:label "Drainage Division" ;
+  rdfs:subClassOf geofab:ReportingRegion ;
+  rdfs:subClassOf hyf:HY_CatchmentAggregate ;
+  rdfs:subClassOf [
+      a owl:Restriction ;
+      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass geofab:ContractedCatchment ;
+      owl:onProperty geo:sfContains ;
+    ] ;
+.
+geofab:ReportingRegion
+  a owl:Class ;
+  dc:description """Geofabric Hydrology Reporting Regions are derived from aggregations of contracted
 catchments from Geofabric Hydrology Reporting Catchments. """ ;
-                 dc:source "Section 5.5 Page 44 in the Australian Hydrological Geospatial Fabric (Geofabric) v3.0 Product Guide"@en ;
-                 rdfs:label "Reporting Region" ;
-                 skos:historyNote """This product contains two
+  dc:source "Section 5.5 Page 44 in the Australian Hydrological Geospatial Fabric (Geofabric) v3.0 Product Guide"@en ;
+  rdfs:label "Reporting Region" ;
+  rdfs:subClassOf geo:Feature ;
+  rdfs:subClassOf hyf:HY_CatchmentAggregate ;
+  skos:historyNote """This product contains two
 candidate reporting regions, namely AWRA Drainage Division for national scale reporting
 purposes and River Region for regional scale reporting purposes. More reporting regions may
 be added in future releases based on user requirements.""" ;
@@ -205,19 +129,11 @@ the Australian Water Resources Assessment, it is envisaged that these units can 
 generally as a standard for hydrological reporting at the national and regional scale, and thus
 replace the Australia River Basins 1997 (http://www.ga.gov.au/metadatagateway/metadata/record/gcat_42343).
 Table 31 shows the Geofabric Hydrology Reporting Regions feature class terminology and
-feature subtypes.""" .
-
-
-###  http://linked.data.gov.au/def/geofabric#RiverRegion
-:RiverRegion rdf:type owl:Class ;
-             rdfs:subClassOf :ReportingRegion ,
-                             hyf:HY_CatchmentAggregate ,
-                             [ rdf:type owl:Restriction ;
-                               owl:onProperty geo:sfWithin ;
-                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                               owl:onClass :DrainageDivision
-                             ] ;
-             dc:description """The River Regions were based on a specification developed by Bureau hydrologists involved in
+feature subtypes.""" ;
+.
+geofab:RiverRegion
+  a owl:Class ;
+  dc:description """The River Regions were based on a specification developed by Bureau hydrologists involved in
 water resources assessment in consultation with the Geofabric team and scientists from
 CSIRO and ANU. These boundaries were developed for use in regional scale reporting and
 hydrological modelling. The River Region boundaries were not used in the Australian Water
@@ -228,79 +144,46 @@ of reporting increases.""" ;
 Reporting Regions are derived from aggregations of Contracted Catchments for regional scale reporting purposes.
 
 A River Regions is always within one and only one Drainage Division."""@en ;
-             rdfs:label "River Region" .
+  rdfs:label "River Region" ;
+  rdfs:subClassOf geofab:ReportingRegion ;
+  rdfs:subClassOf hyf:HY_CatchmentAggregate ;
+  rdfs:subClassOf [
+      a owl:Restriction ;
+      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass geofab:ContractedCatchment ;
+      owl:onProperty geo:sfContains ;
+    ] ;
+.
+geofab:hasConCatID
+  a owl:DatatypeProperty ;
+  rdfs:comment "false if the contracted catchment does not drain into another catchment (i.e. is a sink)" ;
+  rdfs:domain geofab:ContractedCatchment ;
+  rdfs:range xsd:boolean ;
+.
+hyf:HY_Catchment
+  a owl:Class ;
+  rdfs:comment "The HY Features Ontology's generic class for a catchment"@en ;
+  rdfs:label "Catchment" ;
+.
+hyf:HY_CatchmentAggregate
+  a owl:Class ;
+  rdfs:comment "The HY Features Ontology's generic class for an aggregation of catchments"@en ;
+  rdfs:label "Catchment Aggregate" ;
+.
+<https://linked.data.gov.au/org/csiro>
+  a sdo:Organization ;
+  sdo:name "CSIRO" ;
+  sdo:url "https://www.csiro.au"^^xsd:anyURI ;
+.
 
+<http://orcid.org/0000-0002-8742-7730>
+  a sdo:Person ;
+  sdo:name "Nicholas J. Car" ;
+  sdo:email "nicholas.car@anu.edu.au"^^xsd:anyURI ;
+.
 
-###  http://linked.data.gov.au/def/geofabric#geofabric-id
-:geofabric-id rdf:type owl:Class ;
-              rdfs:subClassOf rdfs:Resource .
-
-
-###  http://www.opengis.net/ont/geosparql#Feature
-geo:Feature rdf:type owl:Class .
-
-
-###  http://www.w3.org/2000/01/rdf-schema#Resource
-rdfs:Resource rdf:type owl:Class .
-
-
-###  https://www.opengis.net/def/appschema/hy_features/hyf/HY_Catchment
-hyf:HY_Catchment rdf:type owl:Class ;
-                 rdfs:comment "The HY Features Ontology's generic class for a catchment"@en ;
-                 rdfs:label "Catchment" .
-
-
-###  https://www.opengis.net/def/appschema/hy_features/hyf/HY_CatchmentAggregate
-hyf:HY_CatchmentAggregate rdf:type owl:Class ;
-                          rdfs:comment "The HY Features Ontology's generic class for an aggregation of catchments"@en ;
-                          rdfs:label "Catchment Aggregate" .
-
-
-[ sdo:identifier <http://orcid.org/0000-0002-8742-7730> ;
-  sdo:name "Nicholas J. Car"
-] .
-
-[ sdo:identifier <http://catalogue.linked.data.gov.au/org/csiro> ;
-   sdo:name "CSIRO"
- ] .
-
-[ sdo:identifier <http://orcid.org/0000-0002-8742-7730> ;
-   sdo:name "Nicholas J. Car"
- ] .
-
-[ sdo:identifier <http://orcid.org/0000-0002-8742-7730> ;
-   sdo:name "Nicholas J. Car"
- ] .
-
-[ sdo:identifier <http://catalogue.linked.data.gov.au/org/csiro> ;
-   sdo:name "CSIRO"
- ] .
-
-[ sdo:identifier <http://catalogue.linked.data.gov.au/org/csiro> ;
-   sdo:name "CSIRO"
- ] .
-
-[ sdo:identifier <http://orcid.org/0000-0002-8742-7730> ;
-   sdo:name "Nicholas J. Car"
- ] .
-
-[ sdo:identifier <http://orcid.org/0000-0002-8742-7730> ;
-   sdo:name "Nicholas J. Car"
- ] .
-
-[ sdo:identifier <http://catalogue.linked.data.gov.au/org/csiro> ;
-   sdo:name "CSIRO"
- ] .
-
-[ sdo:identifier <http://catalogue.linked.data.gov.au/org/csiro> ;
-   sdo:name "CSIRO"
- ] .
-
-#################################################################
-#    Annotations
-#################################################################
-
-:geofabric-id rdfs:label "Geofabric ID" .
-
-
-###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
+<https://orcid.org/0000-0002-3884-3420>
+  a sdo:Person ;
+  sdo:name "Simon J.D. Cox" ;
+  sdo:email "simon.cox@xsiro.au"^^xsd:anyURI ;
+.
