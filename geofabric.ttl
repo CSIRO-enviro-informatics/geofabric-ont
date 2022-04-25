@@ -20,7 +20,7 @@
   dct:created "2019-06-07"^^xsd:date ;
   dct:creator <http://orcid.org/0000-0002-8742-7730> ;
   dct:modified "2019-07-29"^^xsd:date ;
-  dct:publisher <http://catalogue.linked.data.gov.au/org/csiro> ;
+  dct:publisher <https://linked.data.gov.au/org/csiro> ;
   dct:source <http://www.bom.gov.au/water/geofabric/documents/v3_0/ahgf_productguide_V3_0_release.pdf> ;
   rdfs:comment """A bare-bones ontology for the Australian Hydrological Geospatial Fabric.
 
@@ -107,7 +107,7 @@ catchments from Geofabric Hydrology Reporting Catchments. """ ;
 candidate reporting regions, namely AWRA Drainage Division for national scale reporting
 purposes and River Region for regional scale reporting purposes. More reporting regions may
 be added in future releases based on user requirements.""" ;
-  skos:scopeNote """Though the Geofabric Hydrology Reporting Regions have been developed for the purposes of
+                 skos:scopeNote """Though the Geofabric Hydrology Reporting Regions have been developed for the purposes of
 the Australian Water Resources Assessment, it is envisaged that these units can be used more
 generally as a standard for hydrological reporting at the national and regional scale, and thus
 replace the Australia River Basins 1997 (http://www.ga.gov.au/metadatagateway/metadata/record/gcat_42343).
@@ -141,16 +141,4 @@ geofab:hasConCatID
   rdfs:comment "false if the contracted catchment does not drain into another catchment (i.e. is a sink)" ;
   rdfs:domain geofab:ContractedCatchment ;
   rdfs:range xsd:boolean ;
-.
-dc:source
-  a owl:AnnotationProperty ;
-.
-geo:Feature
-  a owl:Class ;
-.
-sdo:identifier
-  a owl:AnnotationProperty ;
-.
-sdo:name
-  a owl:AnnotationProperty ;
 .
