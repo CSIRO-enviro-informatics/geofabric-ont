@@ -15,21 +15,16 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<http://linked.data.gov.au/def/geofabric>
-  a owl:Ontology ;
-  dct:contributor <https://orcid.org/0000-0002-3884-3420> ;
-  dct:created "2019-06-07"^^xsd:date ;
-  dct:creator [
-      sdo:identifier <http://orcid.org/0000-0002-8742-7730> ;
-      sdo:name "Nicholas J. Car" ;
-    ] ;
-  dct:modified "2019-07-29"^^xsd:date ;
-  dct:publisher [
-      sdo:identifier <http://catalogue.linked.data.gov.au/org/csiro> ;
-      sdo:name "CSIRO" ;
-    ] ;
-  dct:source <http://www.bom.gov.au/water/geofabric/documents/v3_0/ahgf_productguide_V3_0_release.pdf> ;
-  rdfs:comment """A bare-bones ontology for the Australian Hydrological Geospatial Fabric.
+<http://linked.data.gov.au/def/geofabric> rdf:type owl:Ontology ;
+                                           owl:versionIRI <http://linked.data.gov.au/def/geofabric/1.0> ;
+                                           owl:imports geo: ;
+                                           dcterms:contributor <https://orcid.org/0000-0002-3884-3420> ;
+                                           dcterms:created "2019-06-07"^^xsd:date ;
+                                           dcterms:creator <http://orcid.org/0000-0002-8742-7730> ;
+                                           dcterms:modified "2019-07-29"^^xsd:date ;
+                                           dcterms:publisher <https://linked.data.gov.au/org/csiro> ;
+                                           dcterms:source <http://www.bom.gov.au/water/geofabric/documents/v3_0/ahgf_productguide_V3_0_release.pdf> ;
+                                           rdfs:comment """A bare-bones ontology for the Australian Hydrological Geospatial Fabric.
 
 This small ontology characterises major parts of the [Australian Hydrological Geospatial Fabric](http://www.bom.gov.au/water/geofabric/) for their delivery as [Linked Data](https://www.w3.org/wiki/LinkedData) via the [Geofabric LDAPI](http://linked.data.gov.au/dataset/geofabric).
 
@@ -129,7 +124,7 @@ catchments from Geofabric Hydrology Reporting Catchments. """ ;
 candidate reporting regions, namely AWRA Drainage Division for national scale reporting
 purposes and River Region for regional scale reporting purposes. More reporting regions may
 be added in future releases based on user requirements.""" ;
-  skos:scopeNote """Though the Geofabric Hydrology Reporting Regions have been developed for the purposes of
+                 skos:scopeNote """Though the Geofabric Hydrology Reporting Regions have been developed for the purposes of
 the Australian Water Resources Assessment, it is envisaged that these units can be used more
 generally as a standard for hydrological reporting at the national and regional scale, and thus
 replace the Australia River Basins 1997 (http://www.ga.gov.au/metadatagateway/metadata/record/gcat_42343).
@@ -144,7 +139,7 @@ CSIRO and ANU. These boundaries were developed for use in regional scale reporti
 hydrological modelling. The River Region boundaries were not used in the Australian Water
 Resources Assessment 2010 and 2012 but may be considered in the future as the resolution
 of reporting increases.""" ;
-  rdfs:comment """The Geofabric's Hydrology Reporting Region product's River Region object.
+             rdfs:comment """The Geofabric's Hydrology Reporting Region product's River Region object.
 
 Reporting Regions are derived from aggregations of Contracted Catchments for regional scale reporting purposes.
 
@@ -165,18 +160,6 @@ geofab:hasConCatID
   rdfs:domain geofab:ContractedCatchment ;
   rdfs:range xsd:boolean ;
 .
-dc:source
-  a owl:AnnotationProperty ;
-.
-geo:Feature
-  a owl:Class ;
-.
-sdo:identifier
-  a owl:AnnotationProperty ;
-.
-sdo:name
-  a owl:AnnotationProperty ;
-.
 hyf:HY_Catchment
   a owl:Class ;
   rdfs:comment "The HY Features Ontology's generic class for a catchment"@en ;
@@ -187,35 +170,20 @@ hyf:HY_CatchmentAggregate
   rdfs:comment "The HY Features Ontology's generic class for an aggregation of catchments"@en ;
   rdfs:label "Catchment Aggregate" ;
 .
-[
-  sdo:identifier <http://catalogue.linked.data.gov.au/org/csiro> ;
+<https://linked.data.gov.au/org/csiro>
+  a sdo:Organization ;
   sdo:name "CSIRO" ;
-].
-[
-  sdo:identifier <http://catalogue.linked.data.gov.au/org/csiro> ;
-  sdo:name "CSIRO" ;
-].
-[
-  sdo:identifier <http://catalogue.linked.data.gov.au/org/csiro> ;
-  sdo:name "CSIRO" ;
-].
-[
-  sdo:identifier <http://catalogue.linked.data.gov.au/org/csiro> ;
-  sdo:name "CSIRO" ;
-].
-[
-  sdo:identifier <http://orcid.org/0000-0002-8742-7730> ;
+  sdo:url "https://www.csiro.au"^^xsd:anyURI ;
+.
+
+<http://orcid.org/0000-0002-8742-7730>
+  a sdo:Person ;
   sdo:name "Nicholas J. Car" ;
-].
-[
-  sdo:identifier <http://orcid.org/0000-0002-8742-7730> ;
-  sdo:name "Nicholas J. Car" ;
-].
-[
-  sdo:identifier <http://orcid.org/0000-0002-8742-7730> ;
-  sdo:name "Nicholas J. Car" ;
-].
-[
-  sdo:identifier <http://orcid.org/0000-0002-8742-7730> ;
-  sdo:name "Nicholas J. Car" ;
-].
+  sdo:email "nicholas.car@anu.edu.au"^^xsd:anyURI ;
+.
+
+<https://orcid.org/0000-0002-3884-3420>
+  a sdo:Person ;
+  sdo:name "Simon J.D. Cox" ;
+  sdo:email "simon.cox@xsiro.au"^^xsd:anyURI ;
+.
