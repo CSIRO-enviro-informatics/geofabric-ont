@@ -5,7 +5,7 @@ This small ontology characterises major parts of the [Australian Hydrological Ge
 
 This ontology accords with the [Loc-I Project](http://locationindex.org)'s requirements for the delivery of spatial [Semantic Web](https://www.w3.org/standards/semanticweb/) objects.
 
-![](geofabric.svg)  
+![](geofabric.png)  
 **Figure 1**: Overview diagram of this ontology
 
 
@@ -19,10 +19,7 @@ This ontology is delivered online as human- and machine-readable data, respectiv
 Other resources in this repository are:
 
 * [imports/](imports/) - a folder containing, as RDF files, the main ontologies this ontology imports
-* [geofabric.svg](geofabric.svg) - overview diagram of the ontology
-* [style.css](style.css) - a Cascading Style Sheel used to style the web page version of this ontology
-* [CSIRO_Logo.svg](CSIRO_Logo.svg) - CSIRO's logo used in the web page
-* [LICENSE](LICENSE) - the license for this repository's content ([Creative Commons 4.0 License](https://creativecommons.org/licenses/by/4.0/)
+* [geofabric.png](geofabric.png) - overview diagram of the ontology
 * [AHGF v3 Product Relation](AHGF_GDB_ProductRelationships_V3_0_release.pdf) - the document from the [Bureau of Meteorology](http://www.bom.gov.au) describing the relations between the parts of the v3 Geofabric
 
 
@@ -32,7 +29,10 @@ The content of this API is licensed for use under the [Creative Commons 4.0 Lice
 
 ## Contacts
 *author*:  
-**Nicholas Car**  
-*Senior Experimental Scientist*  
-CSIRO Land & Water, Environmental Informatics Group  
-<nicholas.car@csiro.au>  
+**Nicholas J. Car**  
+*Honourary Lecturer*  
+College of Engineering & Computer Science  
+Australian National University  
+(formerly of CSIRO)  
+<nicholas.car@anu..edu.au>  
+<https://cecs.anu.edu.au/people/nicholas-car>

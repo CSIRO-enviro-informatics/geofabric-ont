@@ -1,7 +1,9 @@
-# baseURI: http://linked.data.gov.au/def/geofabric-hyfeatures
-# imports: http://linked.data.gov.au/def/geofabric
+# baseURI: https://linked.data.gov.au/def/geofabric-hyfeatures
+# imports: https://linked.data.gov.au/def/geofabric
 
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix geofab: <https://linked.data.gov.au/def/geofabric/> .
 @prefix hyf: <https://www.opengis.net/def/appschema/hy_features/hyf/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -9,38 +11,38 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<http://linked.data.gov.au/def/geofabric#ContractedCatchment>
-  rdfs:subClassOf hyf:HY_Catchment ;
-.
-<http://linked.data.gov.au/def/geofabric#DrainageDivision>
-  rdfs:subClassOf hyf:HY_CatchmentAggregate ;
-.
-<http://linked.data.gov.au/def/geofabric#ReportingRegion>
-  rdfs:subClassOf hyf:HY_CatchmentAggregate ;
-.
-<http://linked.data.gov.au/def/geofabric#RiverRegion>
-  rdfs:subClassOf hyf:HY_CatchmentAggregate ;
-.
-<http://linked.data.gov.au/def/geofabric-hyfeatures>
+<https://linked.data.gov.au/def/geofabric/hyfeatures>
   a owl:Ontology ;
   dct:contributor <https://orcid.org/0000-0002-8742-7730> ;
   dct:created "2019-11-15"^^xsd:date ;
   dct:creator <https://orcid.org/0000-0002-3884-3420> ;
-  dct:modified "2019-11-15"^^xsd:date ;
-  dct:publisher <http://catalogue.linked.data.gov.au/org/csiro> ;
-  dct:publisher <https://ror.org/03qn8fb07> ;
-  rdfs:label "Geofabric-HY-Features mapping"@en ;
+  dct:modified "2022-04-26"^^xsd:date ;
+  dct:publisher <https://linked.data.gov.au/org/csiro> ;
+  dct:publisher <https://linked.data.gov.au/org/csiro> ;
+  skos:prefLabel "Geofabric-HY-Features mapping"@en ;
   rdfs:seeAlso <http://www.bom.gov.au/water/geofabric/documents/v2_1/AHGF_GDB_ProductRelationships_V2_1_release.pdf> ;
   rdfs:seeAlso "http://github.com/CSIRO-enviro-informatics/geofabric-ont/"@en ;
-  owl:imports <http://linked.data.gov.au/def/geofabric> ;
+  owl:imports <https://linked.data.gov.au/def/geofabric> ;
 .
+
+geofab:ContractedCatchment rdfs:subClassOf hyf:HY_Catchment .
+
+geofab:DrainageDivision rdfs:subClassOf hyf:HY_CatchmentAggregate .
+
+geofab:ReportingRegion rdfs:subClassOf hyf:HY_CatchmentAggregate .
+
+geofab:RiverRegion rdfs:subClassOf hyf:HY_CatchmentAggregate .
+
 hyf:HY_Catchment
   a owl:Class ;
-  rdfs:comment "The HY Features Ontology's generic class for a catchment"@en ;
-  rdfs:label "Catchment" ;
+  skos:definition "The HY Features Ontology's generic class for a catchment"@en ;
+  skos:prefLabel "Catchment" ;
+  rdfs:subClassOf geo:Feature ;
 .
+
 hyf:HY_CatchmentAggregate
   a owl:Class ;
-  rdfs:comment "The HY Features Ontology's generic class for an aggregation of catchments"@en ;
-  rdfs:label "Catchment Aggregate" ;
+  skos:definition "The HY Features Ontology's generic class for an aggregation of catchments"@en ;
+  skos:prefLabel "Catchment Aggregate" ;
+  rdfs:subClassOf geo:FeatureCollection ;
 .
