@@ -1,357 +1,893 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+  <head>
     <title>Geofabric Ontology</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-<div id="pylode">made by <a href="http://github.com/rdflib/pyLODE">pyLODE</a></div>
-<img src="CSIRO_Logo.svg" alt="CSIRO's Logo" style="width: 150px" />
-<h1>Geofabric Ontology</h1>
-<section id="metadata">
-    <h2 style="display:none;">Metadata</h2>
-    <dl>
-        <dt>IRI</dt>
-        <dd><code>https://linked.data.gov.au/def/geofabric</code></dd>
-        <dt>Publisher(s)</dt>
-        <dd>
-            <a href="http://catalogue.linked.data.gov.au/org/csiro">CSIRO</a><br/>
-        </dd>
-        <dt>Creator(s)</dt>
-        <dd>
-            <a href="http://orcid.org/0000-0002-8742-7730">Nicholas J. Car</a><br/>
-        </dd>
-        <dt>Contributors(s)</dt>
-        <dd>
-            https://orcid.org/0000-0002-3884-3420<br/>
-        </dd>
-        <dt>Created</dt>
-        <dd>2019-06-07</dd>
-        <dt>Modified</dt>
-        <dd>2019-07-29</dd>
-        <dt>Version Information</dt>
-        <dd>Version 1.0 only characterises 3 types of Feature - Contracted Catchment, River Region & Drianage Division - and requires that each CC be within a RR and that an RR be within a DD.</dd>
-        <dt>Version IRI</dt>
-        <dd><a href="https://linked.data.gov.au/def/geofabric/1.0">https://linked.data.gov.au/def/geofabric/1.0</a></dd>
-        <dt>Imports</dt>
-        <dd>
-            <a href="http://www.opengis.net/ont/geosparql#">geo:</a><br/>
-        </dd>
-        <dt>Ontology Source</dt>
-        <dd><a href="geofabric.ttl">RDF (turtle)</a></dd>
-    	<dt>Further Information</dt>
-    	<dd>
-        	<p>See the code repository online containing this ontology for further documentaion:</p>
-            	<ul><li><a href="https://github.com/CSIRO-enviro-informatics/geofabric-ont">This Ontology in GitHub</a></li></ul>        
-    	</dd>
-    </dl>
-    <h2>Description</h2>
-    <div id="description">
-        <p>A bare-bones ontology for the Australian Hydrological Geospatial Fabric.</p>
+    <style>
+        #pylode {
+            position: fixed;
+            top: 130px;
+            left: -80px;
+            font-size: small;
+            transform: rotate(-90deg);
+            color: grey;
+        }
+        #pylode a {
+            font-size: 2em;
+            font-weight: bold;
+            text-decoration: none;
+            color: #005A9C;
+        }
+        #pylode a:hover {
+            color: #333;
+        }
+        #pylode #p {
+            color: #329545;
+        }
+        #pylode #y {
+            color: #f9cb33;
+        }
+        #pylode #version {
+            font-size: 1.0em;
+        }
+
+        .cardinality {
+            font-style: italic;
+            color: #aa00aa;
+        }
+
+        dl {
+            /*border: 1px solid navy;*/
+            /*padding:5px;*/
+        }
+
+        dt {
+            font-weight: bold;
+            padding: 0;
+        }
+
+        dd {
+            margin-bottom: 10px;
+            padding-top: 7px;
+        }
+
+        #metadata ul,
+        #classes ul {
+            list-style-type: none;
+        }
+
+        #metadata ul li,
+        #classes ul li {
+            margin-left: -40px;
+        }
+
+        ul.hlist {
+            list-style-type: none;
+            border: 1px solid navy;
+            padding:5px;
+            background-color: #F4FFFF;
+        }
+
+        ul.hierarchy {
+            border: 1px solid navy;
+            padding: 5px 25px 5px 25px;
+            background-color: #F4FFFF;
+        }
+
+
+        ul.hlist li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        .entity {
+            border: 1px solid navy;
+            margin:5px 0 5px 0;
+            padding: 5px;
+        }
+
+        .entity th {
+            width: 150px;
+            vertical-align: top;
+        }
+
+        .entity th,
+        .entity td {
+            padding-bottom: 20px;
+        }
+
+        .entity table th {
+            text-align: left;
+        }
+
+        section#overview img {
+            max-width: 1000px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            text-align: left
+        }
+        h1, h2, h3 {
+            color: #005A9C; background: white
+        }
+        h1 {
+            font: 170% sans-serif;
+            line-height: 110%;
+        }
+        h2 {
+            font: 140% sans-serif;
+            margin-top:40px;
+        }
+        h3 {
+            font: 120% sans-serif;
+            margin-top: 20px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid navy;
+        }
+        h4 { font: bold 100% sans-serif }
+        h5 { font: italic 100% sans-serif }
+        h6 { font: small-caps 100% sans-serif }
+
+        body {
+            padding: 2em 70px 2em 70px;
+            margin: 0;
+            font-family: sans-serif;
+            color: black;
+            background: white;
+            background-position: top left;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            text-align: justify;
+        }
+
+        section {
+            max-width: 1500px;
+        }
+
+        .figure {
+            margin-bottom: 20px;
+        }
+
+        :link { color: #00C; background: transparent }
+        :visited { color: #609; background: transparent }
+        a:active { color: #C00; background: transparent }
+
+        .sup-c,
+        .sup-op,
+        .sup-fp,
+        .sup-dp,
+        .sup-ap,
+        .sup-p,
+        .sup-ni,
+        .sup-con,
+        .sup-col {
+            cursor:help;
+        }
+
+        .sup-c {
+            color:orange;
+        }
+
+        .sup-op {
+            color:navy;
+        }
+
+        .sup-fp {
+            color:lightskyblue;
+        }
+
+        .sup-dp {
+            color:green;
+        }
+
+        .sup-ap {
+            color:darkred;
+        }
+
+        .sup-p {
+            color:black;
+        }
+
+        .sup-ni {
+            color:brown;
+        }
+
+        .sup-con {
+            color:orange;
+        }
+
+        .sup-col {
+            color:darkred;
+        }
+
+        sup {
+            margin-left: -3px;
+        }
+        code {
+            font-size: large;
+            color: darkred;
+        }
+
+        /* less prominent links for properties */
+        .proplink {
+            color: #336;
+            text-decoration: none;
+        }
+
+#toc {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    height: 100%;
+    overflow-y: auto;
+    padding: 10px;
+    border: solid 1px navy;
+    font-size: small;
+    width: 180px;
+}
+#toc h3 {
+    margin-top: 5px;
+}
+
+#toc ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#toc .first > li {
+    margin-top: 5px;
+}
+
+#toc .second,
+#toc .third {
+    padding-left: 10px;
+}
+
+#content {
+    width: calc(100% - 150px);
+}
+
+.hover_property {
+    cursor: help;
+    text-decoration: none;
+    border-bottom: dashed 1px;
+}
+
+.setclass {
+    list-style-type: none;
+}
+	</style>
+    <link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABhklEQVQ4jbWPzStEURjG3yQLirlGKUnKFO45Z+SjmXvnnmthQcpCoVhYmD/AwmJiI3OvZuZc2U3UlKU0/gAslMw9JgvhHxAr2fko7r0jHSsl+TgbTz2Lt5731/MASEiJW9ONml2QyX6rsGalmnT74v8BDf12hxJfpV8d1uwNKUBYszabdFv84L8B9X0rESVmmUup2fme0cVhJWaZHw4NWL1SewEAfDe6H3Dy6Ll456WEJsRZS630MwCAOI20ei5OBpxse5zcBZw8eS4uPpfIuDiCainIg9umBCU0GZzgLZ9Hn31OgoATL+CkLDGB5H1OKj4nFd/FBxUXJ0UZNb4edw/6nLyJXaj5FeCVyPLNIVmYK8TG1IwWb16L1gEACAFV90ftoT8bdOX0EeyY99gxBXZMgRz6qGb1KantAACI0UvE6F5XJqEjpsdURouI0Vt5gGOUkUNnPu7ObGIIMfNaGqDmjDRi9FZldF1lRgYzeqUyeoiY4ag5Iy3RgOYRM8+/M2bG8efsO4hGrpmJseyMAAAAAElFTkSuQmCC" rel="icon" sizes="16x16" type="image/png">
+    <link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAC40lEQVRYhe2UT0hUQRzHp6Iss1B3VZKIDbbdfW9mnoi4f3zzjkJQeOgS0SEIb1EWBGGlLLu460zQPQM1unUIIjA6rfpm6ZAhHjoIRVQUFUlEbG+euTsdXG1d3VL3bVD4g+9h+L35fT/8fvN7ADgY9aHY5fpIvK82HO9ysu66wxWOzbkjcekKx0a2ALYA/n2AGi3a6ArFezcidziecQygNhhrcUficjP6PwBqtGijKxy/thnVBePHywYoDsFhl53GV8SEcsTx4usCMLUewTVpc23BNvEzm6Neyf1+KcG2vwqwUjgrOJq2JmHftwmkVBRGTvncFodnbI7vChO/FRznCmHsNM7aHM9Yk7Df5iqsLMw9sMNOK2g+jS4IEz0UJv4iuJZb2RltWnB4UZqH6ioGAgAAGe5vtiZhtzDx7OoRadLmeM7m6IRjhnLMW2Vx1bA5GhAmnhIcz6/xNj4Ujsky8UspwfayjDPjsF2Y6L7N8Vzx/BfP+KPg6LbgSqd8DnfJW2CnbaLhfH5ephpqygJYvQU4Z3P82TLRsDDhUTnmrSq+Y3N0Mg+Xldy/zwEAnLMWZ3pHpNExmfLs/t0dOdVcbT0JeKxUwFP2VljjqiE47Jp53LTXNxhsUZjerTByXWX6VZWRs/4bIQ2ACv+UAomgDzLCISNZxAxZKMhIDjLy1JfsaK+I+eGBUBNk5E2x8RogX/PdcDZUqieWTSh5D6nOVKqfhoycUmlHFFIyu5RXqf7AcQDISCpv/tqbMBqK883RtmpISRoxQyJKPgGn3wNk5NEigDFa6hslqV/Kj+FdBQD0bshIDlKSLlVcoWQo36UhR80BAMB73lulMn0EMpJTqD6qJiOt3mho/8GbkT2BZNgDB/V+RI0fkOrT3kRIVQbaDizJm2hdNbINBxwk5xAj3yEjuV9rZ1iIkgxixkLBA83mz8uCjLwoGwAx0vOnFSy5mtR4VTaAQvVORMnwZgSpzkrV/QmdE2tKe46+MQAAAABJRU5ErkJggg==" rel="icon" sizes="32x32" type="image/png">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <script id="schema.org" type="application/ld+json">
+[
+  {
+    "@id": "https://linked.data.gov.au/org/csiro",
+    "https://schema.org/name": [
+      {
+        "@value": "CSIRO"
+      }
+    ],
+    "https://schema.org/url": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
+        "@value": "https://www.csiro.au"
+      }
+    ]
+  },
+  {
+    "@id": "https://orcid.org/0000-0002-3884-3420",
+    "https://schema.org/email": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
+        "@value": "simon.cox@xsiro.au"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Simon J.D. Cox"
+      }
+    ]
+  },
+  {
+    "@id": "https://linked.data.gov.au/def/geofabric",
+    "@type": [
+      "https://schema.org/DefinedTermSet"
+    ],
+    "https://schema.org/contributor": [
+      {
+        "@id": "https://orcid.org/0000-0002-3884-3420"
+      }
+    ],
+    "https://schema.org/creator": [
+      {
+        "@id": "http://orcid.org/0000-0002-8742-7730"
+      }
+    ],
+    "https://schema.org/description": [
+      {
+        "@language": "en",
+        "@value": "A bare-bones ontology for the Australian Hydrological Geospatial Fabric.\r\n\r\n  This small ontology characterises major parts of the [Australian Hydrological Geospatial Fabric](http://www.bom.gov.au/water/geofabric/) for their delivery as [Linked Data](https://www.w3.org/wiki/LinkedData) via the [Geofabric LDAPI](https://linked.data.gov.au/dataset/geofabric).\r\n\r\n  This ontology accords with the [Loc-I Project](http://locationindex.org)'s requirements for the delivery of spatial [Semantic Web](https://www.w3.org/standards/semanticweb/) objects."
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@language": "en",
+        "@value": "Geofabric Ontology"
+      }
+    ],
+    "https://schema.org/publisher": [
+      {
+        "@id": "https://linked.data.gov.au/org/csiro"
+      }
+    ]
+  },
+  {
+    "@id": "http://orcid.org/0000-0002-8742-7730",
+    "https://schema.org/email": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
+        "@value": "nicholas.car@anu.edu.au"
+      }
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "Nicholas J. Car"
+      }
+    ]
+  }
+]
+	</script>
+  </head>
+  <body>
+    <div id="content">
+      <img src="CSIRO_Logo.svg" alt="CSIRO's Logo" style="width: 150px" />
+      <div class="section" id="metadata">
+        <h1>Geofabric Ontology</h1>
+        <h2>Metadata</h2>
+        <dl>
+          <div>
+            <dt>
+              <strong>IRI</strong>
+            </dt>
+            <dd>
+              <code>https://linked.data.gov.au/def/geofabric</code>
+            </dd>
+          </div>
+          <div>
+            <dt>
+              <a class="hover_property" href="http://purl.org/dc/terms/title" title="A name given to the resource. Defined in DCMI Metadata Terms">Title</a>
+            </dt>
+            <dd><p>Geofabric Ontology</p></dd>
+          </div>
+          <div>
+            <dt>
+              <a class="hover_property" href="http://purl.org/dc/terms/publisher" title="An entity responsible for making the resource available. Defined in DCMI Metadata Terms">Publisher</a>
+            </dt>
+            <dd>
+              <a href="https://linked.data.gov.au/org/csiro">org:csiro</a>
+            </dd>
+          </div>
+          <div>
+            <dt>
+              <a class="hover_property" href="http://purl.org/dc/terms/creator" title="An entity responsible for making the resource. Defined in DCMI Metadata Terms">Creator</a>
+            </dt>
+            <dd>
+              <a href="http://orcid.org/0000-0002-8742-7730">orcid:0000-0002-8742-7730</a>
+            </dd>
+          </div>
+          <div>
+            <dt>
+              <a class="hover_property" href="http://purl.org/dc/terms/contributor" title="An entity responsible for making contributions to the resource. Defined in DCMI Metadata Terms">Contributor</a>
+            </dt>
+            <dd>
+              <a href="https://orcid.org/0000-0002-3884-3420">orcid:0000-0002-3884-3420</a>
+            </dd>
+          </div>
+          <div>
+            <dt>
+              <a class="hover_property" href="http://www.w3.org/2002/07/owl#versionIRI" title="The property that identifies the version IRI of an ontology. Defined in The OWL 2 Schema vocabulary (OWL 2)">Version Iri</a>
+            </dt>
+            <dd>
+              <a href="#2.0">geofab:2.0</a>
+            </dd>
+          </div>
+          <div>
+            <dt>
+              <a class="hover_property" href="http://www.w3.org/2002/07/owl#versionInfo" title="The annotation property that provides version information for an ontology or another OWL construct. Defined in The OWL 2 Schema vocabulary (OWL 2)">Version Info</a>
+            </dt>
+            <dd>
+              <ul>
+                <li><p>Version 2.0 updates the IRI for this ontology to use HTTPS, not HTTP, uses OntPub (https://w3id.org/profile/ontpub) annotation properties, adds the <code>hasDownstreamCatchment</code> property, <code>ReportingRegion</code> class and indicates subclasses of <code>ContractedCatchment</code>.</p></li>
+                <li><p>Version 1.0 only characterises 3 types of Feature - Contracted Catchment, River Region &amp; Drianage Division - and requires that each CC be within a RR and that an RR be within a DD.</p></li>
+              </ul>
+            </dd>
+          </div>
+          <div>
+            <dt>
+              <a class="hover_property" href="http://purl.org/dc/terms/source" title="A related resource from which the described resource is derived. Defined in DCMI Metadata Terms">Source</a>
+            </dt>
+            <dd>
+              <a href="http://www.bom.gov.au/water/geofabric/documents/v3_0/ahgf_productguide_V3_0_release.pdf">http://www.bom.gov.au/water/geofabric/documents/v3_0/ahgf_productguide_V3_0_release.pdf</a>
+            </dd>
+          </div>
+          <div>
+            <dt>
+              <a class="hover_property" href="http://purl.org/dc/terms/description" title="An account of the resource. Defined in DCMI Metadata Terms">Description</a>
+            </dt>
+            <dd><p>A bare-bones ontology for the Australian Hydrological Geospatial Fabric.</p>
 <p>This small ontology characterises major parts of the <a href="http://www.bom.gov.au/water/geofabric/">Australian Hydrological Geospatial Fabric</a> for their delivery as <a href="https://www.w3.org/wiki/LinkedData">Linked Data</a> via the <a href="https://linked.data.gov.au/dataset/geofabric">Geofabric LDAPI</a>.</p>
-<p>This ontology accords with the <a href="http://locationindex.org">Loc-I Project</a>'s requirements for the delivery of spatial <a href="https://www.w3.org/standards/semanticweb/">Semantic Web</a> objects.</p>
-    </div>
-</section>
-<section id="toc">
-    <h2>Table of Contents</h2>
-    <ol>
-        <li><a href="#classes">Classes</a></li>
-        <li><a href="#annotationproperties">Annotation Properties</a></li>
-        <li><a href="#namespaces">Namespaces</a></li>
-    </ol>
-</section>
-<section id="overview">
-    <h2>Overview</h2>
-    <div class="figure">
-        <a href="geofabric.png"><img src="geofabric.png" alt="Overview diagram of this ontology" style="width: 800px" /></a>
-        <div class="caption"><strong>Figure 1:</strong> Ontology overview</div>
-    </div>
-</section>
-<section id="classes">
-    <h2>Classes <span style="float:right; font-size:smaller;"><a href="">&uparrow;</a></span></h2>
-    <ul class="hlist">
-        <li><a href="#catchment">Catchment</a></li>
-        <li><a href="#catchmentaggregate">Catchment Aggregate</a></li>
-        <li><a href="#contractedcatchment">Contracted Catchment</a></li>
-        <li><a href="#drainagedivision">Drainage Division</a></li>
-        <li><a href="#feature">Feature</a></li>
-        <li><a href="#geofabrichydrologyreportingregion">Geofabric Hydrology reporting region</a></li>
-        <li><a href="#riverregion">River Region</a></li>
-    </ul>
-    <div class="entity class" id="contractedcatchment">
-        <h3>Contracted Catchment<sup title="class" class="type-c">c</sup></h3>
-        <table>
+<p>This ontology accords with the <a href="http://locationindex.org">Loc-I Project</a>'s requirements for the delivery of spatial <a href="https://www.w3.org/standards/semanticweb/">Semantic Web</a> objects.</p></dd>
+          </div>
+        </dl>
+      </div>
+      <div class="section" id="overview">
+        <img src="geofabric.png" />
+        <p>Figure 1: Ontology overview</p>
+      </div>
+      <div class="section" id="classes">
+        <h2>Classes</h2>
+        <div class="property entity" id="ContractedCatchment">
+          <h3>Contracted Catchment
+            <sup class="sup-c" title="OWL/RDFS Class">c</sup>
+          </h3>
+          <table>
             <tr>
-                <th>IRI</th>
-                <td><code>https://linked.data.gov.au/def/geofabric/ContractedCatchment</code></td>
+              <th>IRI</th>
+              <td>
+                <code>https://linked.data.gov.au/def/geofabric/ContractedCatchment</code>
+              </td>
             </tr>
             <tr>
-                <th>Description</th>
-                <td>
-                    The Geofabric's Hydrology Reporting Catchments product's AHGF Contracted Catchment object.
-
-Contracted Catchments are always within River Revions.
-                </td>
+              <th>
+                <a class="hover_property" href="http://purl.org/dc/terms/description" title="An account of the resource. Defined in DCMI Metadata Terms">Description</a>
+              </th>
+              <td><p>The AHGFContractedCatchment feature class is designed to represent geographic surface boundaries that have a hydrological relationship to surface water features. These catchment boundaries in their current form may not completely satisfy legislative or business requirements, but are intended to provide the building blocks for reporting regions such as those given in Geofabric Hydrology Reporting Regions. The AHGFNode and AHGFLink feature classes provide a simplified, dendritic node link network for input into hydrological models. </p>
+<p>All contracted catchment features of type ContractedArea are aggregations of the AHGFCatchment units that participate in a relationship of common geographic extent based upon the location of a contracted node from both Geofabric Surface Cartography and Geofabric Surface Network or a data sink as defined within the DEM-1S. Levels of confidence for contracted nodes are further described in the following section of the Geofabric Product Guide.</p>
+<p>Each ContractedArea is assigned with the contracted node identifier (ConNodeID) and the confidence level (ConLevel) of the contracted node to which they drain. The ContractedArea features are the drainage areas of a combination of Levels 1 and 2 contracted nodes. These drainage areas also incorporate catchment areas where there is no discernable flow (at 1:250,000 scale) in the form of stream flow segment features. The allocation of no flow areas to contracted catchments is performed based on the most likely destination of water falling in these areas in flood type conditions. </p>
+<p>Contracted Catchments are always within River Revions.</p></td>
             </tr>
             <tr>
-                <th>Super-classes</th>
-                <td>
-                    <a href="https://www.opengis.net/def/appschema/hy_features/hyf/HY_Catchment">hyf:HY_Catchment</a> <sup class="sup-c" title="class">c</sup><br/>
-                    <a href="http://www.opengis.net/ont/geosparql#Feature">geo:Feature</a> <sup class="sup-c" title="class">c</sup><br/>
-                </td>
+              <th>
+                <a class="hover_property" href="http://purl.org/dc/terms/provenance" title="A statement of any changes in ownership and custody of the resource since its creation that are significant for its authenticity, integrity, and interpretation. Defined in DCMI Metadata Terms">Provenance</a>
+              </th>
+              <td><p>Section 5.4.3 Page 38, 40 in the Australian Hydrological Geospatial Fabric (Geofabric) v3.0 Product Guide</p></td>
             </tr>
             <tr>
-                <th>Restrictions</th>
-                <td>
-                    <a href="http://www.opengis.net/ont/geosparql#sfWithin">geo:sfWithin</a> <span class="cardinality">exactly</span> 1 <a href="#riverregion">https://linked.data.gov.au/def/geofabric/RiverRegion</a> <sup class="sup-c" title="class">c</sup><br/>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="entity class" id="drainagedivision">
-        <h3>Drainage Division<sup title="class" class="type-c">c</sup></h3>
-        <table>
-            <tr>
-                <th>IRI</th>
-                <td><code>https://linked.data.gov.au/def/geofabric/DrainageDivision</code></td>
+              <th>
+                <a class="hover_property" href="http://www.w3.org/2000/01/rdf-schema#subClassOf" title="The subject is a subclass of a class. Defined in The RDF Schema vocabulary (RDFS)">Sub Class Of</a>
+              </th>
+              <td>
+                <a href="http://www.opengis.net/ont/geosparql#Feature">geo:Feature</a>
+              </td>
             </tr>
             <tr>
-                <th>Description</th>
-                <td>
-                    The AWRA Drainage Division is defined for the purpose of providing a stable set of reporting
-regions specifically for the purpose of the Bureau’s Australian Water Resources Assessment
-and are referred to as the 2010 and 2012 Assessment Reporting Regions.
-                </td>
+              <th>
+                <a class="hover_property" href="https://w3id.org/profile/ontdoc/inDomainOf" title="Inverse of rdfs:domain. Defined in Ontology Documentation Profile">In Domain Of</a>
+              </th>
+              <td>
+                <span>
+                  <a href="#hasDownstreamCatchment">geofab:hasDownstreamCatchment</a>
+                  <sup class="sup-op" title="OWL Object Property">op</sup>
+                </span>
+              </td>
             </tr>
             <tr>
-                <th>Super-classes</th>
-                <td>
-                    <a href="https://www.opengis.net/def/appschema/hy_features/hyf/HY_CatchmentAggregate">hyf:HY_CatchmentAggregate</a> <sup class="sup-c" title="class">c</sup><br/>
-                    <a href="#geofabrichydrologyreportingregion">https://linked.data.gov.au/def/geofabric/ReportingRegion</a> <sup class="sup-c" title="class">c</sup><br/>
-                    <a href="http://www.opengis.net/ont/geosparql#Feature">geo:Feature</a> <sup class="sup-c" title="class">c</sup><br/>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="entity class" id="geofabrichydrologyreportingregion">
-        <h3>Geofabric Hydrology reporting region<sup title="class" class="type-c">c</sup></h3>
-        <table>
-            <tr>
-                <th>IRI</th>
-                <td><code>https://linked.data.gov.au/def/geofabric/ReportingRegion</code></td>
+              <th>
+                <a class="hover_property" href="https://w3id.org/profile/ontdoc/inRangeOf" title="Inverse of rdfs:range. Defined in Ontology Documentation Profile">In Range Of</a>
+              </th>
+              <td>
+                <span>
+                  <a href="#hasDownstreamCatchment">geofab:hasDownstreamCatchment</a>
+                  <sup class="sup-op" title="OWL Object Property">op</sup>
+                </span>
+              </td>
             </tr>
             <tr>
-                <th>Description</th>
-                <td>
-                    Geofabric Hydrology Reporting Regions are derived from aggregations of contracted
-catchments from Geofabric Hydrology Reporting Catchments. This product contains two
-candidate reporting regions, namely AWRA Drainage Division for national scale reporting
-purposes and River Region for regional scale reporting purposes. More reporting regions may
-be added in future releases based on user requirements.
-
-The AWRA Drainage Division is defined for the purpose of providing a stable set of reporting
-regions specifically for the purpose of the Bureau's Australian Water Resources Assessment
-and are referred to as the 2010 and 2012 Assessment Reporting Regions.
-
-The River Regions were based on a specification developed by Bureau hydrologists involved in
-water resources assessment in consultation with the Geofabric team and scientists from
-CSIRO and ANU. These boundaries were developed for use in regional scale reporting and
-hydrological modelling. The River Region boundaries were not used in the Australian Water
-Resources Assessment 2010 and 2012 but may be considered in the future as the resolution
-of reporting increases.
-
-Though the Geofabric Hydrology Reporting Regions have been developed for the purposes of
-the Australian Water Resources Assessment, it is envisaged that these units can be used more
-generally as a standard for hydrological reporting at the national and regional scale, and thus
-replace the Australia River Basins 1997 (http://www.ga.gov.au/metadatagateway/metadata/record/gcat_42343).
-Table 31 shows the Geofabric Hydrology Reporting Regions feature class terminology and
-feature subtypes. 
-                </td>
+              <th>
+                <a class="hover_property" href="https://w3id.org/profile/ontdoc/restriction" title="Convenience property for things that subclass owl:Restriction. Defined in Ontology Documentation Profile">Restriction</a>
+              </th>
+              <td>
+                <span>
+                  <span>
+                    <a href="http://www.opengis.net/ont/geosparql#sfWithin">geo:sfWithin</a>
+                    <span>
+                      <span class="cardinality">exactly</span>
+                      <span>1</span>
+                    </span><br>
+                  </span>
+                </span>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="property entity" id="DrainageDivision">
+          <h3>Drainage Division
+            <sup class="sup-c" title="OWL/RDFS Class">c</sup>
+          </h3>
+          <table>
+            <tr>
+              <th>IRI</th>
+              <td>
+                <code>https://linked.data.gov.au/def/geofabric/DrainageDivision</code>
+              </td>
             </tr>
             <tr>
-                <th>Super-classes</th>
-                <td>
-                    <a href="http://www.opengis.net/ont/geosparql#Feature">geo:Feature</a> <sup class="sup-c" title="class">c</sup><br/>
-                    <a href="https://www.opengis.net/def/appschema/hy_features/hyf/HY_CatchmentAggregate">hyf:HY_CatchmentAggregate</a> <sup class="sup-c" title="class">c</sup><br/>
-                </td>
+              <th>
+                <a class="hover_property" href="http://purl.org/dc/terms/description" title="An account of the resource. Defined in DCMI Metadata Terms">Description</a>
+              </th>
+              <td>
+                <ul>
+                  <li><p>The Geofabric's Hydrology Reporting Region product's AWRA Drainage Division object.</p>
+<p>Drainage Division is defined for the purpose of providing a stable set of reporting regions specifically for the purpose of the Bureau’s Australian Water Resources Assessment (AWRA) and are referred to as the 2010 and 2012 Assessment Reporting Regions</p></li>
+                  <li><p>The AWRA Drainage Division is defined for the purpose of providing a stable set of reporting regions specifically for the purpose of the Bureau’s Australian Water Resources Assessment and are referred to as the 2010 and 2012 Assessment Reporting Regions.</p></li>
+                </ul>
+              </td>
             </tr>
             <tr>
-                <th>Sub-classes</th>
-                <td>
-                    <a href="#drainagedivision">https://linked.data.gov.au/def/geofabric/DrainageDivision</a> <sup class="sup-c" title="class">c</sup><br/>
-                    <a href="#riverregion">https://linked.data.gov.au/def/geofabric/RiverRegion</a> <sup class="sup-c" title="class">c</sup><br/>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="entity class" id="riverregion">
-        <h3>River Region<sup title="class" class="type-c">c</sup></h3>
-        <table>
-            <tr>
-                <th>IRI</th>
-                <td><code>https://linked.data.gov.au/def/geofabric/RiverRegion</code></td>
+              <th>
+                <a class="hover_property" href="http://purl.org/dc/terms/provenance" title="A statement of any changes in ownership and custody of the resource since its creation that are significant for its authenticity, integrity, and interpretation. Defined in DCMI Metadata Terms">Provenance</a>
+              </th>
+              <td><p>Page 44 in the Australian Hydrological Geospatial Fabric (Geofabric) v3.0 Product Guide</p></td>
             </tr>
             <tr>
-                <th>Description</th>
-                <td>
-                    The River Regions were based on a specification developed by Bureau hydrologists involved in
-water resources assessment in consultation with the Geofabric team and scientists from
-CSIRO and ANU. These boundaries were developed for use in regional scale reporting and
-hydrological modelling. The River Region boundaries were not used in the Australian Water
-Resources Assessment 2010 and 2012 but may be considered in the future as the resolution
-of reporting increases.
-                </td>
+              <th>
+                <a class="hover_property" href="http://www.w3.org/2000/01/rdf-schema#subClassOf" title="The subject is a subclass of a class. Defined in The RDF Schema vocabulary (RDFS)">Sub Class Of</a>
+              </th>
+              <td>
+                <span>
+                  <a href="#ReportingRegion">geofab:ReportingRegion</a>
+                  <sup class="sup-c" title="OWL/RDFS Class">c</sup>
+                </span>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="property entity" id="ReportingRegion">
+          <h3>Reporting Region
+            <sup class="sup-c" title="OWL/RDFS Class">c</sup>
+          </h3>
+          <table>
+            <tr>
+              <th>IRI</th>
+              <td>
+                <code>https://linked.data.gov.au/def/geofabric/ReportingRegion</code>
+              </td>
             </tr>
             <tr>
-                <th>Super-classes</th>
-                <td>
-                    <a href="#geofabrichydrologyreportingregion">https://linked.data.gov.au/def/geofabric/ReportingRegion</a> <sup class="sup-c" title="class">c</sup><br/>
-                    <a href="https://www.opengis.net/def/appschema/hy_features/hyf/HY_CatchmentAggregate">hyf:HY_CatchmentAggregate</a> <sup class="sup-c" title="class">c</sup><br/>
-                    <a href="http://www.opengis.net/ont/geosparql#Feature">geo:Feature</a> <sup class="sup-c" title="class">c</sup><br/>
-                </td>
+              <th>
+                <a class="hover_property" href="http://purl.org/dc/terms/description" title="An account of the resource. Defined in DCMI Metadata Terms">Description</a>
+              </th>
+              <td><p>Geofabric Hydrology Reporting Regions are derived from aggregations of contracted catchments from Geofabric Hydrology Reporting Catchments. </p></td>
             </tr>
             <tr>
-                <th>Restrictions</th>
-                <td>
-                    <a href="http://www.opengis.net/ont/geosparql#sfWithin">geo:sfWithin</a> <span class="cardinality">exactly</span> 1 <a href="#drainagedivision">https://linked.data.gov.au/def/geofabric/DrainageDivision</a> <sup class="sup-c" title="class">c</sup><br/>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="entity class" id="feature">
-        <h3>Feature<sup title="class" class="type-c">c</sup></h3>
-        <table>
-            <tr>
-                <th>IRI</th>
-                <td><code>http://www.opengis.net/ont/geosparql#Feature</code></td>
+              <th>
+                <a class="hover_property" href="http://www.w3.org/2004/02/skos/core#scopeNote" title="A note that helps to clarify the meaning and/or the use of a concept. Defined in SKOS Vocabulary">Scope Note</a>
+              </th>
+              <td><p>Though the Geofabric Hydrology Reporting Regions have been developed for the purposes of the Australian Water Resources Assessment, it is envisaged that these units can be used more generally as a standard for hydrological reporting at the national and regional scale, and thus replace the Australia River Basins 1997 (http://www.ga.gov.au/metadatagateway/metadata/record/gcat_42343). Table 31 shows the Geofabric Hydrology Reporting Regions feature class terminology and feature subtypes.</p></td>
             </tr>
             <tr>
-                <th>Sub-classes</th>
-                <td>
-                    <a href="#drainagedivision">https://linked.data.gov.au/def/geofabric/DrainageDivision</a> <sup class="sup-c" title="class">c</sup><br/>
-                    <a href="#geofabrichydrologyreportingregion">https://linked.data.gov.au/def/geofabric/ReportingRegion</a> <sup class="sup-c" title="class">c</sup><br/>
-                    <a href="#contractedcatchment">https://linked.data.gov.au/def/geofabric/ContractedCatchment</a> <sup class="sup-c" title="class">c</sup><br/>
-                    <a href="#riverregion">https://linked.data.gov.au/def/geofabric/RiverRegion</a> <sup class="sup-c" title="class">c</sup><br/>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="entity class" id="catchment">
-        <h3>Catchment<sup title="class" class="type-c">c</sup></h3>
-        <table>
-            <tr>
-                <th>IRI</th>
-                <td><code>https://www.opengis.net/def/appschema/hy_features/hyf/HY_Catchment</code></td>
+              <th>
+                <a class="hover_property" href="http://purl.org/dc/terms/provenance" title="A statement of any changes in ownership and custody of the resource since its creation that are significant for its authenticity, integrity, and interpretation. Defined in DCMI Metadata Terms">Provenance</a>
+              </th>
+              <td><p>Section 5.5 Page 44 in the Australian Hydrological Geospatial Fabric (Geofabric) v3.0 Product Guide</p></td>
             </tr>
             <tr>
-                <th>Description</th>
-                <td>
-                    The HY Features Ontology's generic class for a catchment
-                </td>
+              <th>
+                <a class="hover_property" href="http://www.w3.org/2000/01/rdf-schema#subClassOf" title="The subject is a subclass of a class. Defined in The RDF Schema vocabulary (RDFS)">Sub Class Of</a>
+              </th>
+              <td>
+                <a href="http://www.opengis.net/ont/geosparql#Feature">geo:Feature</a>
+              </td>
             </tr>
             <tr>
-                <th>Sub-classes</th>
-                <td>
-                    <a href="#contractedcatchment">https://linked.data.gov.au/def/geofabric/ContractedCatchment</a> <sup class="sup-c" title="class">c</sup><br/>
-                </td>
+              <th>
+                <a class="hover_property" href="https://w3id.org/profile/ontdoc/superClassOf" title="Inverse of RDFS' subClassOf. Defined in Ontology Documentation Profile">Super Class Of</a>
+              </th>
+              <td>
+                <ul>
+                  <li>
+                    <span>
+                      <a href="#DrainageDivision">geofab:DrainageDivision</a>
+                      <sup class="sup-c" title="OWL/RDFS Class">c</sup>
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                      <a href="#RiverRegion">geofab:RiverRegion</a>
+                      <sup class="sup-c" title="OWL/RDFS Class">c</sup>
+                    </span>
+                  </li>
+                </ul>
+              </td>
             </tr>
-        </table>
-    </div>
-    <div class="entity class" id="catchmentaggregate">
-        <h3>Catchment Aggregate<sup title="class" class="type-c">c</sup></h3>
-        <table>
+          </table>
+        </div>
+        <div class="property entity" id="RiverRegion">
+          <h3>River Region
+            <sup class="sup-c" title="OWL/RDFS Class">c</sup>
+          </h3>
+          <table>
             <tr>
-                <th>IRI</th>
-                <td><code>https://www.opengis.net/def/appschema/hy_features/hyf/HY_CatchmentAggregate</code></td>
+              <th>IRI</th>
+              <td>
+                <code>https://linked.data.gov.au/def/geofabric/RiverRegion</code>
+              </td>
             </tr>
             <tr>
-                <th>Description</th>
-                <td>
-                    The HY Features Ontology's generic class for an aggregation of catchments
-                </td>
+              <th>
+                <a class="hover_property" href="http://purl.org/dc/terms/description" title="An account of the resource. Defined in DCMI Metadata Terms">Description</a>
+              </th>
+              <td>
+                <ul>
+                  <li><p>The Geofabric's Hydrology Reporting Region product's River Region object.</p>
+<p>Reporting Regions are derived from aggregations of Contracted Catchments for regional scale reporting purposes.</p>
+<p>A River Regions is always within one and only one Drainage Division.</p></li>
+                  <li><p>The River Regions were based on a specification developed by Bureau hydrologists involved in water resources assessment in consultation with the Geofabric team and scientists from CSIRO and ANU. These boundaries were developed for use in regional scale reporting and hydrological modelling. The River Region boundaries were not used in the Australian Water Resources Assessment 2010 and 2012 but may be considered in the future as the resolution of reporting increases.</p></li>
+                </ul>
+              </td>
             </tr>
             <tr>
-                <th>Sub-classes</th>
-                <td>
-                    <a href="#drainagedivision">https://linked.data.gov.au/def/geofabric/DrainageDivision</a> <sup class="sup-c" title="class">c</sup><br/>
-                    <a href="#riverregion">https://linked.data.gov.au/def/geofabric/RiverRegion</a> <sup class="sup-c" title="class">c</sup><br/>
-                    <a href="#geofabrichydrologyreportingregion">https://linked.data.gov.au/def/geofabric/ReportingRegion</a> <sup class="sup-c" title="class">c</sup><br/>
-                </td>
+              <th>
+                <a class="hover_property" href="http://www.w3.org/2000/01/rdf-schema#subClassOf" title="The subject is a subclass of a class. Defined in The RDF Schema vocabulary (RDFS)">Sub Class Of</a>
+              </th>
+              <td>
+                <span>
+                  <a href="#ReportingRegion">geofab:ReportingRegion</a>
+                  <sup class="sup-c" title="OWL/RDFS Class">c</sup>
+                </span>
+              </td>
             </tr>
-        </table>
-    </div>
-</section>
-<section id="annotationproperties">
-    <h2>Annotation Properties <span style="float:right; font-size:smaller;"><a href="">&uparrow;</a></span></h2>
-    <ul class="hlist">
-        <li><a href="#source">source</a></li>
-        <li><a href="#identifier">identifier</a></li>
-        <li><a href="#name">name</a></li>
-    </ul>
-    <div class="entity property" id="source">
-        <h3>source<sup title="annotation property" class="type-ap">ap</sup></h3>
-        <table>
             <tr>
-                <th>IRI</th>
-                <td><code>http://purl.org/dc/elements/1.1/source</code></td>
+              <th>
+                <a class="hover_property" href="https://w3id.org/profile/ontdoc/restriction" title="Convenience property for things that subclass owl:Restriction. Defined in Ontology Documentation Profile">Restriction</a>
+              </th>
+              <td>
+                <span>
+                  <span>
+                    <a href="http://www.opengis.net/ont/geosparql#sfWithin">geo:sfWithin</a>
+                    <span>
+                      <span class="cardinality">exactly</span>
+                      <span>1</span>
+                    </span><br>
+                  </span>
+                </span>
+              </td>
             </tr>
-        </table>
-    </div>
-    <div class="entity property" id="identifier">
-        <h3>identifier<sup title="annotation property" class="type-ap">ap</sup></h3>
-        <table>
+          </table>
+        </div>
+      </div>
+      <div class="section" id="objectproperties">
+        <h2>Object Properties</h2>
+        <div class="property entity" id="hasDownstreamCatchment">
+          <h3>has downstream catchment
+            <sup class="sup-op" title="OWL Object Property">op</sup>
+          </h3>
+          <table>
             <tr>
-                <th>IRI</th>
-                <td><code>https://schema.org/identifier</code></td>
+              <th>IRI</th>
+              <td>
+                <code>https://linked.data.gov.au/def/geofabric/hasDownstreamCatchment</code>
+              </td>
             </tr>
-        </table>
-    </div>
-    <div class="entity property" id="name">
-        <h3>name<sup title="annotation property" class="type-ap">ap</sup></h3>
-        <table>
             <tr>
-                <th>IRI</th>
-                <td><code>https://schema.org/name</code></td>
+              <th>
+                <a class="hover_property" href="http://purl.org/dc/terms/description" title="An account of the resource. Defined in DCMI Metadata Terms">Description</a>
+              </th>
+              <td><p>Indicates another Contracted Catchment that this Contracted Catchment drains to</p></td>
             </tr>
-        </table>
-    </div>
-</section>
-<section id="namespaces">
-    <h2>Namespaces <span style="float:right; font-size:smaller;"><a href="">&uparrow;</a></span></h2>
-    <dl>
-        <dt><em>default (:)</em></dt>
-        <dd><code>https://linked.data.gov.au/def/geofabric/</code></dd>
-        <dt>dc</dt>
-        <dd><code>http://purl.org/dc/elements/1.1/</code></dd>
-        <dt>dct</dt>
-        <dd><code>http://purl.org/dc/terms/</code></dd>
-        <dt>geo</dt>
-        <dd><code>http://www.opengis.net/ont/geosparql#</code></dd>
-        <dt>hyf</dt>
-        <dd><code>https://www.opengis.net/def/appschema/hy_features/hyf/</code></dd>
-        <dt>owl</dt>
-        <dd><code>http://www.w3.org/2002/07/owl#</code></dd>
-        <dt>rdf</dt>
-        <dd><code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code></dd>
-        <dt>rdfs</dt>
-        <dd><code>http://www.w3.org/2000/01/rdf-schema#</code></dd>
-        <dt>sdo</dt>
-        <dd><code>https://schema.org/</code></dd>
-        <dt>xsd</dt>
-        <dd><code>http://www.w3.org/2001/XMLSchema#</code></dd>
-    </dl>
-</section>
-    <section id="legend">
+            <tr>
+              <th>
+                <a class="hover_property" href="http://www.w3.org/2000/01/rdf-schema#subPropertyOf" title="The subject is a subproperty of a property. Defined in The RDF Schema vocabulary (RDFS)">Sub Property Of</a>
+              </th>
+              <td>
+                <a href="http://www.opengis.net/ont/geosparql#sfTouches">geo:sfTouches</a>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a class="hover_property" href="http://www.w3.org/2000/01/rdf-schema#domain" title="A domain of the subject property. Defined in The RDF Schema vocabulary (RDFS)">Domain</a>
+              </th>
+              <td>
+                <span>
+                  <a href="#ContractedCatchment">geofab:ContractedCatchment</a>
+                  <sup class="sup-c" title="OWL/RDFS Class">c</sup>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <a class="hover_property" href="http://www.w3.org/2000/01/rdf-schema#range" title="A range of the subject property. Defined in The RDF Schema vocabulary (RDFS)">Range</a>
+              </th>
+              <td>
+                <span>
+                  <a href="#ContractedCatchment">geofab:ContractedCatchment</a>
+                  <sup class="sup-c" title="OWL/RDFS Class">c</sup>
+                </span>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="namespaces">
+        <h2>Namespaces</h2>
+        <dl>
+          <dt id="dcterms">dcterms</dt>
+          <dd>
+            <code>http://purl.org/dc/terms/</code>
+          </dd>
+          <dt id="geo">geo</dt>
+          <dd>
+            <code>http://www.opengis.net/ont/geosparql#</code>
+          </dd>
+          <dt id="geofab">geofab</dt>
+          <dd>
+            <code>https://linked.data.gov.au/def/geofabric/</code>
+          </dd>
+          <dt id="def">def</dt>
+          <dd>
+            <code>https://linked.data.gov.au/def/</code>
+          </dd>
+          <dt id="org">org</dt>
+          <dd>
+            <code>https://linked.data.gov.au/org/</code>
+          </dd>
+          <dt id="orcid">orcid</dt>
+          <dd>
+            <code>http://orcid.org/</code>
+          </dd>
+          <dt id="owl">owl</dt>
+          <dd>
+            <code>http://www.w3.org/2002/07/owl#</code>
+          </dd>
+          <dt id="prov">prov</dt>
+          <dd>
+            <code>http://www.w3.org/ns/prov#</code>
+          </dd>
+          <dt id="rdf">rdf</dt>
+          <dd>
+            <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>
+          </dd>
+          <dt id="rdfs">rdfs</dt>
+          <dd>
+            <code>http://www.w3.org/2000/01/rdf-schema#</code>
+          </dd>
+          <dt id="schema">schema</dt>
+          <dd>
+            <code>https://schema.org/</code>
+          </dd>
+          <dt id="sdo">sdo</dt>
+          <dd>
+            <code>https://schema.org/</code>
+          </dd>
+          <dt id="skos">skos</dt>
+          <dd>
+            <code>http://www.w3.org/2004/02/skos/core#</code>
+          </dd>
+        </dl>
+      </div>
+      <div id="legend">
         <h2>Legend</h2>
         <table class="entity">
-            <tr><td><sup class="type-c" title="Classes">c</sup></td><td>Classes</td></tr>
-            <tr><td><sup class="type-op" title="Object Properties">op</sup></td><td>Object Properties</td></tr>
-            <tr><td><sup class="type-dp" title="Data Properties">dp</sup></td><td>Data Properties</td></tr>
-            <tr><td><sup class="type-ap" title="Annotation Properties">dp</sup></td><td>Annotation Properties</td></tr>
-            <tr><td><sup class="type-p" title="Properties">p</sup></td><td>Properties</td></tr>
-            <tr><td><sup class="type-ni" title="Named Individuals">ni</sup></td><td>Named Individuals</td></tr>
+          <tr>
+            <td>
+              <sup class="sup-c" title="OWL/RDFS Class">c</sup>
+            </td>
+            <td>Classes</td>
+          </tr>
+          <tr>
+            <td>
+              <sup class="sup-op" title="OWL Object Property">op</sup>
+            </td>
+            <td>Object Properties</td>
+          </tr>
         </table>
-    </section>
-</body>
+      </div>
+    </div>
+    <div id="pylode">
+      <p>made by 
+        <a href="https://github.com/rdflib/pyLODE">
+          <span id="p">p</span>
+          <span id="y">y</span>
+          <span>LODE</span>
+        </a>
+        <a href="https://github.com/rdflib/pyLODE/release/3.0.2a" id="version">3.0.2a</a>
+      </p>
+    </div>
+    <div id="toc">
+      <h3>Table of Contents</h3>
+      <ul class="first">
+        <li>
+          <h4>
+            <a href="#metadata">Metadata</a>
+          </h4>
+        </li>
+        <li>
+          <h4>
+            <a href="#classes">Classes</a>
+          </h4>
+          <ul class="second">
+            <li>
+              <a href="#ContractedCatchment">Contracted Catchment</a>
+            </li>
+            <li>
+              <a href="#DrainageDivision">Drainage Division</a>
+            </li>
+            <li>
+              <a href="#ReportingRegion">Reporting Region</a>
+            </li>
+            <li>
+              <a href="#RiverRegion">River Region</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <h4>
+            <a href="#objectproperties">Object Properties</a>
+          </h4>
+          <ul class="second">
+            <li>
+              <a href="#hasDownstreamCatchment">has downstream catchment</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <h4>
+            <a href="#namespaces">Namespaces</a>
+          </h4>
+          <ul class="second">
+            <li>
+              <a href="#dcterms">dcterms</a>
+            </li>
+            <li>
+              <a href="#geo">geo</a>
+            </li>
+            <li>
+              <a href="#geofab">geofab</a>
+            </li>
+            <li>
+              <a href="#def">def</a>
+            </li>
+            <li>
+              <a href="#org">org</a>
+            </li>
+            <li>
+              <a href="#orcid">orcid</a>
+            </li>
+            <li>
+              <a href="#orcid">orcid</a>
+            </li>
+            <li>
+              <a href="#owl">owl</a>
+            </li>
+            <li>
+              <a href="#prov">prov</a>
+            </li>
+            <li>
+              <a href="#rdf">rdf</a>
+            </li>
+            <li>
+              <a href="#rdfs">rdfs</a>
+            </li>
+            <li>
+              <a href="#schema">schema</a>
+            </li>
+            <li>
+              <a href="#sdo">sdo</a>
+            </li>
+            <li>
+              <a href="#skos">skos</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <h4>
+            <a href="#legend">Legend</a>
+          </h4>
+          <ul class="second"></ul>
+        </li>
+      </ul>
+    </div>
+  </body>
 </html>
